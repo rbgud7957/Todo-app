@@ -1,5 +1,5 @@
 # node modules
 node_modules/
 
-# 환경 변수
+# 환경 변수 , DB 연결 보안을 위해 ignore
 .env
