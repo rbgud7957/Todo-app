@@ -1,16 +1,22 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-function authMiddleware(req, res, next) {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
-  if (!token) return res.status(401).json({ message: "인증 토큰 없음" });
+exports.authMiddleware = (roles = []) => {
+  return (req, res, next) => {
+    const token = req.headers["authorization"]?.split(" ")[1];
+    if (!token) return res.status(401).json({ message: "토큰 없음" });
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;  // 토큰에서 userId 꺼내서 저장
-    next();
-  } catch (err) {
-    res.status(401).json({ message: "유효하지 않은 토큰" });
-  }
-}
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
 
-module.exports = authMiddleware;
+      // role 체크
+      if (roles.length && !roles.includes(decoded.role)) {
+        return res.status(403).json({ message: "권한 없음" });
+      }
+
+      next();
+    } catch (err) {
+      res.status(401).json({ message: "토큰 유효하지 않음" });
+    }
+  };
+};
