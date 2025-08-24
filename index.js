@@ -25,3 +25,7 @@ app.listen(5000, () => {
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
+app.use("/api/todos", require("./routes/todos"));
+app.use("/api/admin", require("./routes/admin"));
+
+
