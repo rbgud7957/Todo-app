@@ -23,14 +23,25 @@ POST http://localhost:5000/api/auth/register
 POST http://localhost:5000/api/auth/login
 
 3. Todo CRUD
+   
 POST /api/todos → 할 일 생성
-GET /api/todos → 할 일 조회
-PUT /api/todos/:id → 할 일 수정
-DELETE /api/todos/:id → 할 일 삭제
 
-✅ 기능 요약
-회원가입 (비밀번호 해싱)
-로그인 (JWT 발급)
-JWT 기반 인증 미들웨어
-사용자별 Todo CRUD
-MongoDB 데이터 영속성
+GET /api/todos → 할 일 조회  
+
+PUT /api/todos/:id → 할 일 수정  
+
+DELETE /api/todos/:id → 할 일 삭제  
+
+
+✅ 기능 요약  
+
+회원가입 (비밀번호 해싱)  
+
+로그인 (JWT 발급)  
+
+JWT 기반 인증 미들웨어  
+
+사용자별 Todo CRUD  
+
+MongoDB 데이터 영속성  
+
