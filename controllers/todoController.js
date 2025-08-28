@@ -4,18 +4,23 @@ const Todo = require("../models/Todo");
 // ✅ 할 일 생성
 exports.createTodo = async (req, res) => {
   try {
-    const { title, completed } = req.body;
+    const { title, completed, dueDate, priority } = req.body;
+
     const todo = new Todo({
       title,
       completed,
-      user: req.user.id,   // 🔥 로그인한 유저의 ID 넣기
+      dueDate, // 🔥 마감일 추가
+      priority, // 🔥 중요도 옵션 (추가하고 싶으면 모델에 넣기)
+      user: req.user.id,   // 로그인한 유저의 ID
     });
+
     await todo.save();
     res.json(todo);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
+
 
 // ✅ 로그인한 유저의 할 일 조회
 exports.getTodos = async (req, res) => {
