@@ -1,11 +1,43 @@
 const mongoose = require("mongoose");
 
 const todoSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  title: { type: String, required: true },
-  completed: { type: Boolean, default: false },
-  dueDate: { type: Date },
-  createdAt: { type: Date, default: Date.now }
+  // ✅ 어떤 사용자가 작성한 Todo인지
+  user: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "User", 
+    required: true 
+  },
+
+  // ✅ 할 일 제목
+  title: { 
+    type: String, 
+    required: true,
+    trim: true 
+  },
+
+  // ✅ 완료 여부
+  completed: { 
+    type: Boolean, 
+    default: false 
+  },
+
+  // ✅ 마감일 (선택사항)
+  dueDate: { 
+    type: Date 
+  },
+
+  // ✅ 우선순위
+  priority: { 
+    type: String, 
+    enum: ["low", "medium", "high"], 
+    default: "medium" 
+  },
+
+  // ✅ 생성일 (자동으로 현재 시간 저장)
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
+  }
 });
 
 module.exports = mongoose.model("Todo", todoSchema);
