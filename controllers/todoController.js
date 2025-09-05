@@ -1,5 +1,6 @@
 // controllers/todoController.js
 const Todo = require("../models/Todo");
+const mongoose = require("mongoose");
 
 // ✅ 할 일 생성
 exports.createTodo = async (req, res) => {
@@ -56,6 +57,41 @@ exports.deleteTodo = async (req, res) => {
     });
     if (!todo) return res.status(404).json({ error: "할 일을 찾을 수 없습니다" });
     res.json({ message: "삭제 완료" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// ✅ Todo 통계 API
+exports.getStats = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const total = await Todo.countDocuments({ user: userId });
+    const completed = await Todo.countDocuments({ user: userId, completed: true });
+    const today = await Todo.countDocuments({
+      user: userId,
+      dueDate: { 
+        $gte: new Date().setHours(0,0,0,0),  // 오늘 0시 이후
+        $lt: new Date().setHours(23,59,59,999) // 오늘 23:59 이전
+      }
+    });
+
+    // 우선순위별 개수 (group by priority)
+    const priorityStats = await Todo.aggregate([
+      { $match: { user: new mongoose.Types.ObjectId(userId) } },
+      { $group: { _id: "$priority", count: { $sum: 1 } } }
+    ]);
+
+    const stats = {
+      total,
+      completed,
+      completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
+      dueToday: today,
+      priorityStats
+    };
+
+    res.json(stats);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
