@@ -7,7 +7,7 @@ exports.authMiddleware = (roles = []) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;
+      req.user = { id: decoded.id, role: decoded.role };
 
       // role 체크
       if (roles.length && !roles.includes(decoded.role)) {
