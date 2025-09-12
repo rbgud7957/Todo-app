@@ -1,17 +1,34 @@
-# 📝 Todo App (Node.js + MongoDB + JWT)
+# 📝 Todo App (Node.js + Express + MongoDB)
 
-이 프로젝트는 **회원가입 / 로그인 (JWT 인증)** 기능과 **Todo CRUD** 기능을 갖춘 간단한 REST API 서버입니다.  
-Postman으로 쉽게 테스트할 수 있습니다.
+JWT 인증을 기반으로 한 Todo 관리 백엔드 프로젝트입니다.  
+회원가입/로그인, Todo CRUD, 우선순위 & 카테고리 관리, 통계 기능을 제공합니다.
 
 ---
 
-## 🚀 기술 스택
-- Node.js
-- Express.js
-- MongoDB + Mongoose
-- JWT (Json Web Token) 인증
-- bcrypt (비밀번호 해싱)
-- dotenv (환경 변수 관리)
+## 🚀 주요 기능
+
+### ✅ 인증 (Authentication)
+- 회원가입 / 로그인
+- JWT 기반 인증
+- 사용자 Role(`user`, `admin`) 기반 권한 관리
+
+### ✅ Todo 관리
+- 할 일 추가 / 조회 / 수정 / 삭제 (CRUD)
+- 각 Todo는 로그인한 사용자와 연결됨
+- 필드:
+  - `title` (할 일 제목, 필수)
+  - `completed` (완료 여부, 기본값: false)
+  - `dueDate` (마감일, 선택)
+  - `priority` (우선순위: `low`, `medium`, `high`)
+  - `category` (카테고리, 선택)
+  - `user` (작성자 ID, 필수)
+
+### ✅ 통계 API
+- 전체 Todo 개수
+- 완료된 Todo 개수 및 완료율
+- 오늘 마감 Todo 개수
+- 우선순위별 Todo 개수
+- 카테고리별 Todo 개수
 
 ---
 
@@ -31,18 +48,6 @@ GET /api/todos → 할 일 조회
 PUT /api/todos/:id → 할 일 수정  
 
 DELETE /api/todos/:id → 할 일 삭제  
-
-
-✅ 기능 요약  
-
-회원가입 (비밀번호 해싱)  
-
-로그인 (JWT 발급)  
-
-JWT 기반 인증 미들웨어  
-
-사용자별 Todo CRUD  
-
 MongoDB 데이터 영속성  
 
 + Todo 통계 기능 추가
