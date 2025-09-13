@@ -50,5 +50,4 @@ PUT /api/todos/:id → 할 일 수정
 DELETE /api/todos/:id → 할 일 삭제  
 MongoDB 데이터 영속성  
 
-+ Todo 통계 기능 추가
-+ Postman으로 확인한 기능을 프론트엔드와 연결해서 작업 확인
+~~ 기능 여러가지 추가 및 프론트 연결까지 완료하는게 목표
