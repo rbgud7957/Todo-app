@@ -5,6 +5,18 @@ JWT 인증을 기반으로 한 Todo 관리 백엔드 프로젝트입니다.
 
 ---
 
+📌 기술 스택
+
+Node.js
+
+Express
+
+MongoDB + Mongoose
+
+JWT 인증
+
+Postman (API 테스트)
+
 ## 🚀 주요 기능
 
 ### ✅ 인증 (Authentication)
@@ -50,4 +62,11 @@ PUT /api/todos/:id → 할 일 수정
 DELETE /api/todos/:id → 할 일 삭제  
 MongoDB 데이터 영속성  
 
-~~ 기능 여러가지 추가 및 프론트 연결까지 완료하는게 목표
+---
+
+📖 향후 개선 방향
+
+- 비밀번호 재설정 기능
+- Refresh Token 적용
+- 프론트엔드 (React or Next.js) 연결
+- 관리자 전용 대시보드 (전체 사용자 관리)
