@@ -66,6 +66,7 @@ MongoDB 데이터 영속성
 
 📖 향후 개선 방향
 
+- 카테고리 설정 ~ 진행중
 - 비밀번호 재설정 기능
 - Refresh Token 적용
 - 프론트엔드 (React or Next.js) 연결
