@@ -5,14 +5,14 @@ const mongoose = require("mongoose");
 // 할 일 생성
 exports.createTodo = async (req, res) => {
   try {
-    const { title, completed, dueDate, priority, category } = req.body; // category 추가
+    const { title, completed, dueDate, priority, category } = req.body;
 
     const todo = new Todo({
       title,
       completed,
-      dueDate, // 마감일
-      priority, // 우선순위
-      category, // 카테고리
+      dueDate,
+      priority,
+      category,
       user: req.user.id,   // 로그인한 유저의 ID
     });
 
@@ -23,18 +23,41 @@ exports.createTodo = async (req, res) => {
   }
 };
 
-
-// 로그인한 유저의 할 일 조회 (카테고리 필터링 지원)
+// 로그인한 유저의 할 일 조회 (검색 + 필터링 지원)
 exports.getTodos = async (req, res) => {
   try {
-    const filter = { user: req.user.id };
+    const { search, completed, priority, category, dueDate } = req.query;
+    let filter = { user: req.user.id };
 
-    // 쿼리 파라미터로 카테고리 필터링 (예: /api/todos?category=study)
-    if (req.query.category) {
-      filter.category = req.query.category;
+    // 🔍 제목 검색
+    if (search) {
+      filter.title = { $regex: search, $options: "i" }; // 대소문자 구분 없음
     }
 
-    const todos = await Todo.find(filter);
+    // 완료 여부 필터
+    if (completed !== undefined) {
+      filter.completed = completed === "true";
+    }
+
+    // 우선순위 필터
+    if (priority) {
+      filter.priority = priority;
+    }
+
+    // 카테고리 필터
+    if (category) {
+      filter.category = category;
+    }
+
+    // 특정 날짜 마감일 필터 (YYYY-MM-DD)
+    if (dueDate) {
+      const start = new Date(dueDate);
+      const end = new Date(dueDate);
+      end.setHours(23, 59, 59, 999);
+      filter.dueDate = { $gte: start, $lte: end };
+    }
+
+    const todos = await Todo.find(filter).sort({ createdAt: -1 });
     res.json(todos);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -45,8 +68,8 @@ exports.getTodos = async (req, res) => {
 exports.updateTodo = async (req, res) => {
   try {
     const todo = await Todo.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id }, // 본인 소유만 수정 가능
-      req.body,  // category도 수정 가능
+      { _id: req.params.id, user: req.user.id },
+      req.body,
       { new: true }
     );
     if (!todo) return res.status(404).json({ error: "할 일을 찾을 수 없습니다" });
@@ -61,7 +84,7 @@ exports.deleteTodo = async (req, res) => {
   try {
     const todo = await Todo.findOneAndDelete({
       _id: req.params.id,
-      user: req.user.id, // 본인 소유만 삭제 가능
+      user: req.user.id,
     });
     if (!todo) return res.status(404).json({ error: "할 일을 찾을 수 없습니다" });
     res.json({ message: "삭제 완료" });
@@ -80,8 +103,8 @@ exports.getStats = async (req, res) => {
     const today = await Todo.countDocuments({
       user: userId,
       dueDate: { 
-        $gte: new Date().setHours(0,0,0,0),  // 오늘 0시 이후
-        $lt: new Date().setHours(23,59,59,999) // 오늘 23:59 이전
+        $gte: new Date().setHours(0,0,0,0),
+        $lt: new Date().setHours(23,59,59,999)
       }
     });
 
@@ -103,7 +126,7 @@ exports.getStats = async (req, res) => {
       completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
       dueToday: today,
       priorityStats,
-      categoryStats // 카테고리 통계 추가
+      categoryStats
     };
 
     res.json(stats);
