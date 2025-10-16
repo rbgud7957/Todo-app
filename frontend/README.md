@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🧩 Todo App (MERN Stack + Next.js)
 
-## Getting Started
+## 📌 프로젝트 개요  
+사용자가 할 일을 등록, 수정, 삭제하고  
+카테고리, 우선순위, 마감일을 관리할 수 있는 **Todo 리스트 웹 애플리케이션**입니다.  
+백엔드는 Express + MongoDB, 프론트엔드는 Next.js로 구성되어 있습니다.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ⚙️ 기술 스택  
+| 영역 | 기술 |
+|------|------|
+| **Frontend** | Next.js 15, Tailwind CSS, Axios |
+| **Backend** | Node.js, Express.js, Mongoose, JWT, bcrypt |
+| **Database** | MongoDB |
+| **환경 변수 관리** | dotenv |
+| **개발 편의성** | nodemon |
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+ ## ✅ 구현된 기능
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+  - 회원가입 / 로그인 / JWT 인증
 
-## Learn More
+  - Todo CRUD (생성, 조회, 수정, 삭제)
 
-To learn more about Next.js, take a look at the following resources:
+  - 카테고리, 우선순위, 마감일 관리
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  - Todo 통계 API
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  - 검색 + 필터링 기능
 
-## Deploy on Vercel
+  - 프론트엔드 기본 페이지 연결 완료
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📅 다음 단계 (예정)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  - 로그인 연동 (Next.js → Express JWT)
+
+  - 할 일 추가/수정/삭제 UI
+
+  - 통계 대시보드 페이지
+
+  - 배포 (Vercel + Render or Railway)
