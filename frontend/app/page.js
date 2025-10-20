@@ -1,32 +1,28 @@
 "use client";
-import { useEffect, useState } from "react";
-import api from "../lib/api";
+
+import { useState } from "react";
+import TodoForm from "./components/TodoForm";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
 
-  useEffect(() => {
-    api.get("/todos")
-      .then((res) => setTodos(res.data))
-      .catch((err) => console.error("API 연결 오류:", err));
-  }, []);
+  const handleAddTodo = (newTodo) => {
+    setTodos((prev) => [newTodo, ...prev]);
+  };
 
   return (
-    <main className="p-8">
+    <main className="flex flex-col items-center justify-start min-h-screen bg-gray-50 p-10">
       <h1 className="text-3xl font-bold mb-6">내 Todo 리스트</h1>
-      <ul className="space-y-3">
-        {todos.length > 0 ? (
-          todos.map((t) => (
-            <li
-              key={t._id}
-              className="bg-white shadow p-4 rounded-lg flex justify-between"
-            >
-              <span>{t.title}</span>
-              <span className="text-sm text-gray-500">{t.priority}</span>
+      <TodoForm onAdd={handleAddTodo} />
+      <ul className="mt-6 w-full max-w-md">
+        {todos.length === 0 ? (
+          <p className="text-gray-500">할 일이 없습니다.</p>
+        ) : (
+          todos.map((todo) => (
+            <li key={todo._id} className="p-3 bg-white rounded-lg shadow mb-2">
+              {todo.title}
             </li>
           ))
-        ) : (
-          <p className="text-gray-500">할 일이 없습니다.</p>
         )}
       </ul>
     </main>
