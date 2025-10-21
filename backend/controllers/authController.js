@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
 
 const generateTokens = (user) => {
   const accessToken = jwt.sign(
@@ -15,6 +16,38 @@ const generateTokens = (user) => {
   );
 
   return { accessToken, refreshToken };
+};
+
+// 회원가입
+exports.register = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // 중복 이메일 확인
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "이미 존재하는 이메일입니다." });
+    }
+
+    // 비밀번호 해싱
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // 새 유저 생성
+    const user = new User({ email, password: hashedPassword });
+    await user.save();
+
+    // 토큰 발급
+    const tokens = generateTokens(user);
+
+    // refreshToken 저장
+    user.refreshToken = tokens.refreshToken;
+    await user.save();
+
+    res.status(201).json({ message: "회원가입 성공", tokens });
+  } catch (err) {
+    console.error("회원가입 오류:", err);
+    res.status(500).json({ message: "서버 오류", error: err.message });
+  }
 };
 
 // 로그인
