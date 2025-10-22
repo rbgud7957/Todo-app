@@ -6,13 +6,13 @@ const generateTokens = (user) => {
   const accessToken = jwt.sign(
     { id: user._id, role: user.role },
     process.env.JWT_SECRET,
-    { expiresIn: "15m" } // 짧게
+    { expiresIn: "15m" } // 액세스 토큰 (짧게)
   );
 
   const refreshToken = jwt.sign(
     { id: user._id },
     process.env.JWT_REFRESH_SECRET,
-    { expiresIn: "7d" } // 길게
+    { expiresIn: "7d" } // 리프레시 토큰 (길게)
   );
 
   return { accessToken, refreshToken };
@@ -54,20 +54,25 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // 유저 확인
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "유저 없음" });
+    if (!user) return res.status(400).json({ message: "이메일 또는 비밀번호를 확인하세요." });
 
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) return res.status(400).json({ message: "비밀번호 틀림" });
+    // 비밀번호 비교
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "이메일 또는 비밀번호를 확인하세요." });
 
+    // 토큰 발급
     const tokens = generateTokens(user);
 
-    // refreshToken을 DB에 저장 (유저 모델에 필드 추가)
+    // refreshToken 저장
     user.refreshToken = tokens.refreshToken;
     await user.save();
 
-    res.json(tokens);
+    res.json({ message: "로그인 성공", tokens });
   } catch (err) {
+    console.error("로그인 오류:", err);
     res.status(500).json({ message: "로그인 실패", error: err.message });
   }
 };
@@ -91,6 +96,7 @@ exports.refresh = async (req, res) => {
 
     res.json(tokens);
   } catch (err) {
+    console.error("토큰 재발급 오류:", err);
     res.status(403).json({ message: "Refresh Token 만료/유효하지 않음" });
   }
 };
