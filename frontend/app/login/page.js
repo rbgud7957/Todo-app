@@ -18,7 +18,7 @@ export default function LoginPage() {
       });
 
       // JWT 토큰 저장
-      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("token", res.data.tokens.accessToken);
 
       alert("로그인 성공!");
       router.push("/"); // 메인 페이지로 이동
