@@ -10,23 +10,29 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+  e.preventDefault();
+  try {
+    console.log("로그인 시도:", email, password);
 
-      // JWT 토큰 저장
-      localStorage.setItem("token", res.data.tokens.accessToken);
+    const res = await axios.post("http://localhost:5000/api/auth/login", {
+      email,
+      password,
+    });
 
-      alert("로그인 성공!");
-      router.push("/"); // 메인 페이지로 이동
-    } catch (err) {
-      console.error(err);
-      alert("로그인 실패. 이메일과 비밀번호를 확인하세요.");
-    }
-  };
+    console.log("응답 데이터:", res.data); // ✅ 서버 응답 확인용 로그 추가
+
+    // JWT 토큰 저장
+    localStorage.setItem("token", res.data.tokens.accessToken);
+
+    alert("로그인 성공!");
+    router.push("/"); // 메인 페이지로 이동
+  } catch (err) {
+    // ✅ 에러 원인 파악용 상세 로그 추가
+    console.error("로그인 에러:", err.response?.data || err.message);
+    alert("로그인 실패. 이메일과 비밀번호를 확인하세요.");
+  }
+};
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
