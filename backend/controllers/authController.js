@@ -29,11 +29,8 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "이미 존재하는 이메일입니다." });
     }
 
-    // 비밀번호 해싱
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     // 새 유저 생성
-    const user = new User({ email, password: hashedPassword });
+    const user = new User({ email, password });
     await user.save();
 
     // 토큰 발급
@@ -54,19 +51,22 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("로그인 요청 도착:", email, password);
 
-    // 유저 확인
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "이메일 또는 비밀번호를 확인하세요." });
+    if (!user) {
+      console.log("❌ 유저 없음:", email);
+      return res.status(400).json({ message: "이메일 또는 비밀번호를 확인하세요." });
+    }
 
-    // 비밀번호 비교
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "이메일 또는 비밀번호를 확인하세요." });
+    console.log("비밀번호 일치 여부:", isMatch);
 
-    // 토큰 발급
+    if (!isMatch) {
+      return res.status(400).json({ message: "이메일 또는 비밀번호를 확인하세요." });
+    }
+
     const tokens = generateTokens(user);
-
-    // refreshToken 저장
     user.refreshToken = tokens.refreshToken;
     await user.save();
 
@@ -76,6 +76,7 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: "로그인 실패", error: err.message });
   }
 };
+
 
 // 토큰 재발급
 exports.refresh = async (req, res) => {
