@@ -1,17 +1,12 @@
-// routes/todos.js
-const express = require('express');
-const { authMiddleware } = require("../middleware/auth");
-const todoController = require("../controllers/todoController");
-
+const express = require("express");
 const router = express.Router();
+const todoController = require("../controllers/todoController");
+const verifyToken = require("../middleware/verifyToken");
 
-// 할 일 CRUD 라우트 (모두 로그인 필요)
-router.post("/", authMiddleware(), todoController.createTodo);
-router.get("/", authMiddleware(), todoController.getTodos);
-router.put("/:id", authMiddleware(), todoController.updateTodo);
-router.delete("/:id", authMiddleware(), todoController.deleteTodo);
-
-// 통계 API
-router.get("/stats", authMiddleware(), todoController.getStats);
+router.post("/", verifyToken, todoController.createTodo);
+router.get("/", verifyToken, todoController.getTodos);
+router.put("/:id", verifyToken, todoController.updateTodo);
+router.delete("/:id", verifyToken, todoController.deleteTodo);
+router.get("/stats", verifyToken, todoController.getStats);
 
 module.exports = router;
