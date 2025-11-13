@@ -19,6 +19,85 @@
 | **통신** | RESTful API + Axios Interceptor | 인증 헤더 자동 주입 및 요청 관리 |
 | **개발 편의성** | nodemon, ESLint | 자동 재시작 및 코드 품질 유지 |
 
+
+## 🧰 기술 스택 상세 활용
+
+### 🖥️ Frontend
+
+#### **Next.js 15**
+- App Router 구조로 페이지 라우팅 구성 (`/login`, `/register`, `/`)
+- 서버 사이드 렌더링(SSR) 기반으로 초기 렌더링 속도 개선
+- `use client`를 사용하여 로그인 상태 및 Todo CRUD 로직 관리
+
+#### **React Hooks**
+- `useState`, `useEffect` 등을 활용해 Todo 목록, 로그인 상태, 폼 입력값 등 상태 관리
+- 로그인 후 토큰 유지 및 자동 리다이렉트 처리 구현
+
+#### **Axios**
+- 백엔드 API와 통신 담당 (`/api/auth`, `/api/todos`)
+- `axiosInstance.js`에서 인터셉터를 설정하여 JWT 토큰을 자동으로 요청 헤더에 포함시킴
+- 에러 발생 시 콘솔 또는 화면에 메시지 표시
+
+#### **Tailwind CSS**
+- 빠른 스타일링 및 반응형 UI 구성
+- 버튼, 입력창, 리스트 등 컴포넌트의 일관된 디자인 유지
+- `className`으로 직접 유틸리티 클래스 적용
+
+---
+
+### ⚙️ Backend
+
+#### **Node.js**
+- 서버 실행 및 비동기 요청 처리 기반
+- Express.js, Mongoose, JWT 등 주요 백엔드 패키지를 구동시키는 런타임
+
+#### **Express.js**
+- RESTful API 구축의 핵심 프레임워크
+- `/api/auth`(로그인/회원가입), `/api/todos`(Todo CRUD) 라우터 구성
+- 미들웨어(`cors`, `express.json`)를 이용해 요청/응답 전처리 수행
+
+#### **Mongoose**
+- MongoDB와 Node.js를 연결하는 ODM(Object Data Modeling) 라이브러리
+- `User.js`와 `Todo.js` 스키마 정의 및 CRUD 작업 담당
+- 비밀번호 해시 저장, 사용자별 Todo 구분 처리
+
+#### **JWT (jsonwebtoken)**
+- 로그인 시 사용자 인증용 토큰 생성 및 검증 수행
+- `authController.js`에서 로그인 성공 시 토큰 발급
+- `verifyToken.js` 미들웨어에서 토큰 유효성 검사 수행
+
+#### **bcrypt**
+- 회원가입 시 비밀번호를 해시화하여 안전하게 저장
+- 로그인 시 입력 비밀번호와 해시 비교 검증 수행
+
+#### **dotenv**
+- 데이터베이스 URI, JWT_SECRET 등 민감한 환경 변수 관리
+- `.env` 파일로 로컬 환경과 배포 환경을 쉽게 분리
+
+#### **nodemon**
+- 백엔드 개발 중 코드 변경 시 서버 자동 재시작
+- 개발 효율성과 디버깅 속도 향상
+
+---
+
+### 🗄️ Database
+
+#### **MongoDB (MongoDB Atlas)**
+- 클라우드 기반 NoSQL 데이터베이스
+- 사용자 정보(User)와 할 일(Todo) 데이터 저장
+- `userId` 필드로 로그인한 사용자별 Todo 분리 관리
+- Atlas 클러스터 URI를 `.env`에 설정하여 Render 배포와 연동
+
+---
+
+### 🌐 Network & 보안
+
+#### **CORS (Cross-Origin Resource Sharing)**
+- 프론트엔드(3000) ↔ 백엔드(5000) 간 요청 허용
+- Express 미들웨어로 설정:  
+  ```js
+  app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+
 ---
 ## 🚀 주요 기능 요약
 
