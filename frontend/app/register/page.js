@@ -1,9 +1,8 @@
 "use client";
 
-import axios from "../utils/axiosInstance";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios from "@/utils/axiosInstance"; // utils/axiosInstance.js 사용
 
 export default function RegisterPage() {
   const router = useRouter();
