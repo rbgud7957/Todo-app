@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-import { AuthContext } from "../context/AuthContext"; // 추가
+import axios from "../utils/axiosInstance"; // axiosInstance 사용
+import { AuthContext } from "../context/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useContext(AuthContext); // context에서 login 함수 가져오기
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,15 +21,11 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log("로그인 시도:", email, password); // 클릭 로그 확인
+
     try {
-      console.log("로그인 시도:", email, password);
-
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
-
-      console.log("응답 데이터:", res.data);
+      const res = await axios.post("/auth/login", { email, password });
+      console.log("응답 데이터:", res.data); // 서버 응답 확인
 
       const accessToken = res.data.tokens.accessToken;
 
