@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "@/utils/axiosInstance"; // utils/axiosInstance.js 사용
+import axios from "../utils/axiosInstance";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -68,3 +68,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+
