@@ -180,15 +180,14 @@
 - ✅ 개인별 Todo 분리 (유저별 데이터 관리)  
 - ✅ 프론트엔드 ↔ 백엔드 API 완전 연동  
 - ✅ MongoDB Atlas 연동 테스트 완료  
-
+- ✅ Vercel + Render 배포 
+- 
 ---
 
 ## 🎯 다음 목표 (예정)
 
 - ✏️ Todo 수정 / 완료 토글 기능 추가  
 - 📊 Todo 통계 페이지 (완료율, 총 개수 등) 
-- 🌐 Vercel + Render 배포 
-- 🔄 Refresh Token 기능 추가  
 - 🎨 반응형 디자인 / UX 개선  
 
 ---
