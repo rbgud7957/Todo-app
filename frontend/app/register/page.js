@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "../utils/axiosInstance";
+import axios from "../utils/axiosInstance"; // 상대 경로로 import
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -11,16 +11,16 @@ export default function RegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    console.log("회원가입 버튼 클릭됨"); // 클릭 확인 로그
+
     try {
-      await axios.post("/auth/register", {
-        email,
-        password,
-      });
+      const res = await axios.post("/auth/register", { email, password });
+      console.log("POST 응답:", res); // 응답 확인 로그
 
       alert("회원가입 성공! 로그인해주세요.");
       router.push("/login");
     } catch (err) {
-      console.error(err);
+      console.error("회원가입 실패:", err); // 에러 로그
       alert("회원가입 실패: 이미 존재하는 이메일일 수 있습니다.");
     }
   };
@@ -68,4 +68,3 @@ export default function RegisterPage() {
     </div>
   );
 }
-
