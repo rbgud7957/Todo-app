@@ -198,7 +198,8 @@
 - `todos.map is not a function` 에러 → 응답 데이터 구조를 배열로 통일  
 - 클라이언트 예외 처리 누락으로 렌더링 오류 발생 → Axios 인터셉터로 공통 에러 처리  
 - MongoDB 및 CORS 설정 문제 → `.env` 및 Express CORS 미들웨어 수정으로 해결  
-
+- 로그인 버튼 클릭 후 요청이 서버에 도달하지 않음 → 브라우저 Console/Network 탭과 Render 로그 확인 후 axiosInstance 적용으로 해결
+- 프론트에서 Render 백엔드 요청 시 CORS 에러 → Express CORS 미들웨어에 배포 프론트 주소 추가로 해결
  ---
 
 ## 💬 느낀 점
