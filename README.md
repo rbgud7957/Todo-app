@@ -24,7 +24,7 @@
 
 ### 🖥️ Frontend
 
-#### **Next.js 15**
+#### **Next.js **
 - App Router 구조로 페이지 라우팅 구성 (`/login`, `/register`, `/`)
 - 서버 사이드 렌더링(SSR) 기반으로 초기 렌더링 속도 개선
 - `use client`를 사용하여 로그인 상태 및 Todo CRUD 로직 관리
