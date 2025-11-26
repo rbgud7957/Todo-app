@@ -178,7 +178,6 @@
 - ✅ 프론트엔드 ↔ 백엔드 API 완전 연동  
 - ✅ MongoDB Atlas 연동 테스트 완료  
 - ✅ Vercel + Render 배포 
-- 
 ---
 
 ## 🎯 다음 목표 (예정)
