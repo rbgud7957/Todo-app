@@ -94,14 +94,11 @@
 
 #### **CORS (Cross-Origin Resource Sharing)**
 - 프론트엔드(3000) ↔ 백엔드(5000) 간 요청 허용
-- Express 미들웨어로 설정:  
-  ```js
-  app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+- Express 미들웨어로 설정
 
 ---
 ## 🚀 주요 기능 요약
 
----
 
 ### 👤 회원 인증
 
