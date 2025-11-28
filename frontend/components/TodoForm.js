@@ -1,74 +1,87 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 
 export default function TodoForm({ onAdd }) {
   const [title, setTitle] = useState("");
-  const [priority, setPriority] = useState("중간");
+  const [category, setCategory] = useState("etc");
+  const [priority, setPriority] = useState("medium");
   const [dueDate, setDueDate] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim()) return alert("할 일을 입력해주세요!");
+    if (!title.trim()) return;
 
     try {
-      const res = await axios.post("http://localhost:5000/api/todos", {
+      const res = await axios.post("/todos", {
         title,
+        category,
         priority,
         dueDate,
-        completed: false,
       });
 
-      onAdd(res.data); // 상위 컴포넌트(TodoList)에 새 todo 전달
+      onAdd(res.data.todo);
+
       setTitle("");
-      setPriority("중간");
+      setCategory("etc");
+      setPriority("medium");
       setDueDate("");
     } catch (err) {
-      console.error(err);
-      alert("할 일을 추가하는 중 오류가 발생했습니다.");
+      console.error("Todo 추가 실패:", err.response?.data || err.message);
+      alert("할 일 추가 중 오류가 발생했습니다.");
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-4 rounded-2xl shadow-md flex flex-col gap-3 w-full max-w-md"
+      className="w-full max-w-md bg-white p-4 rounded-lg shadow flex flex-col gap-3"
     >
-      <h2 className="text-xl font-semibold">할 일 추가</h2>
-
       <input
         type="text"
-        placeholder="할 일을 입력하세요"
+        placeholder="새 할 일을 입력하세요"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="border p-2 rounded-lg w-full"
+        className="border p-2 rounded-lg"
+        required
       />
 
       <div className="flex gap-3">
         <select
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
-          className="border p-2 rounded-lg flex-1"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="flex-1 border p-2 rounded-lg"
         >
-          <option value="낮음">낮음</option>
-          <option value="중간">중간</option>
-          <option value="높음">높음</option>
+          <option value="work">일</option>
+          <option value="personal">개인</option>
+          <option value="study">공부</option>
+          <option value="etc">기타</option>
         </select>
 
-        <input
-          type="date"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-          className="border p-2 rounded-lg flex-1"
-        />
+        <select
+          value={priority}
+          onChange={(e) => setPriority(e.target.value)}
+          className="flex-1 border p-2 rounded-lg"
+        >
+          <option value="high">높음</option>
+          <option value="medium">보통</option>
+          <option value="low">낮음</option>
+        </select>
       </div>
+
+      <input
+        type="date"
+        value={dueDate}
+        onChange={(e) => setDueDate(e.target.value)}
+        className="border p-2 rounded-lg"
+      />
 
       <button
         type="submit"
-        className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+        className="bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
       >
-        추가하기
+        추가
       </button>
     </form>
   );
