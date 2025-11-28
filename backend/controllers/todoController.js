@@ -20,7 +20,10 @@ exports.createTodo = async (req, res) => {
     });
 
     await todo.save();
-    res.status(201).json(todo);
+
+    // 🔥 프론트와 맞는 응답 형태
+    res.status(201).json({ todo });
+
   } catch (err) {
     console.error("Todo 생성 오류:", err);
     res.status(500).json({ message: "서버 오류", error: err.message });
