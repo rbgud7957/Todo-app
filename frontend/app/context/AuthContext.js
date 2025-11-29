@@ -6,30 +6,31 @@ import { useRouter } from "next/navigation";
 export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    // localStorage에서 토큰 확인
-    const token = localStorage.getItem("token");
-    if (token) {
-      setUser({ token }); // 간단히 로그인 상태로 표시
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("token");
+      if (stored) {
+        setToken(stored);
+      }
     }
   }, []);
 
-  const login = (token) => {
-    localStorage.setItem("token", token);
-    setUser({ token });
+  const login = (accessToken) => {
+    localStorage.setItem("token", accessToken);
+    setToken(accessToken);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
-    setUser(null);
+    setToken(null);
     router.push("/login");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
