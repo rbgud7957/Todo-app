@@ -10,11 +10,12 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   "http://localhost:3000",
   "https://todo-frontend.vercel.app",
-  "https://todo-app-eight-alpha-53.vercel.app",
-
-  // 현재 실제 프론트 배포 주소 추가
-  "https://todo-dh9y1g5y6-rbguds-projects.vercel.app"
+  "https://todo-app-eight-alpha-53.vercel.app", // 프로덕션 도메인
 ];
+
+// 정규식으로 Vercel 프리뷰 도메인 전체 허용
+const vercelPreviewRegex = /^https:\/\/todo-[a-z0-9]+-rbguds-projects\.vercel\.app$/;
+
 
 
 app.use(
@@ -22,16 +23,18 @@ app.use(
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
+      // 허용 도메인 직접 비교
+      if (allowedOrigins.includes(origin) || vercelPreviewRegex.test(origin)) {
         return callback(null, true);
-      } else {
-        console.log("❌ CORS 차단된 요청:", origin);
-        return callback(new Error("Not allowed by CORS"));
       }
+
+      console.log("❌ CORS 차단된 요청:", origin);
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })
 );
+
 
 app.use(express.json());
 
