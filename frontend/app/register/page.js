@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "../utils/axiosInstance"; // 상대 경로로 import
+import axios from "../utils/axiosInstance";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -11,17 +11,28 @@ export default function RegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    console.log("회원가입 버튼 클릭됨"); // 클릭 확인 로그
+    console.log("회원가입 버튼 클릭됨");
 
     try {
-      const res = await axios.post("/auth/register", { email, password });
-      console.log("POST 응답:", res); // 응답 확인 로그
+      // 🔥 baseURL + "/auth/register" → 실제 URL: https://todo-app-vgyu.onrender.com/api/auth/register
+      const res = await axios.post("/auth/register", {
+        email,
+        password,
+      });
+
+      console.log("회원가입 응답:", res.data);
 
       alert("회원가입 성공! 로그인해주세요.");
       router.push("/login");
+
     } catch (err) {
-      console.error("회원가입 실패:", err); // 에러 로그
-      alert("회원가입 실패: 이미 존재하는 이메일일 수 있습니다.");
+      console.error("회원가입 실패:", err.response?.data || err.message);
+
+      if (err.response?.status === 400) {
+        alert("이미 존재하는 이메일입니다.");
+      } else {
+        alert("회원가입 실패: 서버 오류 발생");
+      }
     }
   };
 
