@@ -1,15 +1,13 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://todo-app-vgyu.onrender.com", 
+  baseURL: "https://todo-app-vgyu.onrender.com/api",
 });
 
 instance.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    if (token) config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
