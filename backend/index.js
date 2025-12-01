@@ -9,11 +9,13 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
   "http://localhost:3000",
-
+  "https://todo-frontend.vercel.app",
   "https://todo-app-eight-alpha-53.vercel.app",
-  "https://todo-qv1664f5-rbguds-projects.vercel.app",
-  "https://todo-jhdzohirm-rbguds-projects.vercel.app"
+
+  // 현재 실제 프론트 배포 주소 추가
+  "https://todo-dh9y1g5y6-rbguds-projects.vercel.app"
 ];
+
 
 app.use(
   cors({
