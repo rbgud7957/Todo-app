@@ -1,4 +1,5 @@
 # 🧩 Todo App
+배포 주소 - https://todo-app-eight-alpha-53.vercel.app/
 
 ## 📌 프로젝트 개요  
 로그인 기반의 Todo 리스트 웹 애플리케이션입니다.
@@ -7,8 +8,6 @@
 
 이 프로젝트는 Next.js (Frontend) 와 Node.js + Express (Backend),
 그리고 MongoDB (Database) 를 사용해 풀스택 아키텍처를 직접 구현했습니다.
-
-배포 주소 - https://todo-app-eight-alpha-53.vercel.app/
 
 ---
 
