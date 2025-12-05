@@ -9,21 +9,23 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://todo-frontend.vercel.app",
-  "https://todo-app-eight-alpha-53.vercel.app", // 프로덕션 도메인
+
+  // production domain
+  "https://todo-app-eight-alpha-53.vercel.app",
+
+  // main branch preview domain
+  "https://todo-app-git-main-rbguds-projects.vercel.app",
 ];
 
-// 정규식으로 Vercel 프리뷰 도메인 전체 허용
-const vercelPreviewRegex = /^https:\/\/todo-[a-z0-9]+-rbguds-projects\.vercel\.app$/;
-
-
+// preview deploy URL 전체 허용
+const vercelPreviewRegex =
+  /^https:\/\/todo-[a-z0-9\-]+-rbguds-projects\.vercel\.app$/;
 
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
 
-      // 허용 도메인 직접 비교
       if (allowedOrigins.includes(origin) || vercelPreviewRegex.test(origin)) {
         return callback(null, true);
       }
@@ -34,7 +36,6 @@ app.use(
     credentials: true,
   })
 );
-
 
 app.use(express.json());
 
