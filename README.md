@@ -8,6 +8,8 @@
 이 프로젝트는 Next.js (Frontend) 와 Node.js + Express (Backend),
 그리고 MongoDB (Database) 를 사용해 풀스택 아키텍처를 직접 구현했습니다.
 
+배포 주소 - https://todo-app-eight-alpha-53.vercel.app/
+
 ---
 
 ## ⚙️ 기술 스택  
