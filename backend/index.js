@@ -50,7 +50,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/todos", require("./routes/todos"));
-app.use("/api/admin", require("./routes/admin"));
 
 app.listen(PORT, () => {
   console.log(`서버 실행 중: http://localhost:${PORT}`);
