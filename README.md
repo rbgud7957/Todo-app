@@ -14,7 +14,7 @@
 ## ⚙️ 기술 스택  
 | 영역 | 기술 | 설명 |
 |------|------|------ |
-| **Frontend** | Next.js 15, React Hooks, Axios, Tailwind CSS |사용자 인터페이스 및 클라이언트 로직 |
+| **Frontend** | Next.js, React Hooks, Axios, Tailwind CSS |사용자 인터페이스 및 클라이언트 로직 |
 | **Backend** | Node.js, Express.js, JWT, bcrypt, dotenv | 인증, 라우팅, 데이터 처리, 환경 변수 관리 |
 | **Database** | MongoDB (Mongoose ODM) | 유저 정보 및 Todo 데이터 저장 |
 | **통신** | RESTful API + Axios Interceptor | 인증 헤더 자동 주입 및 요청 관리 |
